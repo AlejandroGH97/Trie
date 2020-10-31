@@ -7,20 +7,13 @@ using namespace std;
 
 const string FILENAME = "file.db";
 
-
-
-int main(){
-
-    srand(time(nullptr));
-
+void stressTest() {
     Trie* trie = new Trie();
     string line;
     ifstream keysFile("keys.db");
     vector<string> keys;
 
     trie->build(FILENAME);
-
-    //TIME TESTING ========================================================================
 
     for(int i = 0; i < 200; i++) {
         auto index = rand() % 18386;
@@ -37,18 +30,13 @@ int main(){
     auto executionTime = chrono::duration_cast<chrono::microseconds>(end - start);
     cout << "Execution time: " << executionTime.count() << " us.\n";
     cout << "Read count: " << SEARCH_COUNTER/200 << "\n";
+}
 
+int main(){
 
-    // ifstream file(FILENAME);
+    srand(time(nullptr));
 
-    // if(test.size()) {
-    //     for(auto e: test) {
-    //         file.seekg(e.first, ios::beg);
-    //         getline(file,line);
-    //         cout<<line<<"\n";
-    //     }
-    // }
-    // file.close();
+    stressTest();
 
     return 0;
 }

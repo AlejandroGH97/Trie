@@ -1,21 +1,13 @@
-# cs2100-trie
+# Trie Structure
 
-Implementar la estructura trie. 
+Trie structure capable of building from a file. The build file must have each word sepparated by a line break.
 
-```
-class TrieNode {
-public:
-  map<char,TrieNode*> children;
-  bool is_node;
-}
-```
-___
-# Funciones
-
-- void insert(string)
-- bool search_by_prefix(string)
-- bool search_by_complete_word(string)
-- void delete(string)
-- void print()
-
-# =)
+## Methods
+    - getRoot();
+    - insert(string word, unsigned int pdir, unsigned int offset);
+    - void deleteWord(string word);
+    - prefix(string word);
+    - search(string word);
+    - print();
+    - print(Node* node, int l);
+    - build(string file);
