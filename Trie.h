@@ -48,6 +48,7 @@ public:
     void build(string file);
     void patricia();
     int count(Node*);
+    vector<string> getPaths(string word);
 };
 
 Trie::Trie(){
@@ -110,6 +111,22 @@ void Trie::deleteWord(string word){
         }
     }
     
+}
+
+vector<string> Trie::getPaths(string word) {
+    auto filePositions = search(word);
+    vector<string> paths;
+    ifstream file("file.db");
+
+    if (!filePositions.empty() && file.is_open()) {
+        string path;
+        for (auto& par : filePositions) {
+            file.seekg(par.first, ios::beg);
+            getline(file, path);
+            paths.push_back(path);
+        }
+    }
+    return paths;
 }
 
 int Trie::count(Node* x) {
