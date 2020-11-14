@@ -41,12 +41,13 @@ public:
 
     void insert(string word, unsigned int pdir, unsigned int offset);
     void deleteWord(string word);
-    bool prefix(string word);
+    int prefix(string word);
     vector<pair<unsigned int, unsigned int>> search(string word);
     void print();
     void print(Node* node, int l);
     void build(string file);
     void patricia();
+    int count(Node*);
 };
 
 Trie::Trie(){
@@ -111,7 +112,15 @@ void Trie::deleteWord(string word){
     
 }
 
-bool Trie::prefix(string word){
+int Trie::count(Node* x) {
+    int cnt = x->filePos.size();
+    for (auto c : x->children) {
+        cnt += count(c.second);
+    }
+    return cnt;
+}
+
+int Trie::prefix(string word){
     Node* cur = root;
     int index = 0;
     while(index < word.size()){
@@ -123,10 +132,10 @@ bool Trie::prefix(string word){
         }
         index++;
     }
-    return !cur->state;
+    return count(cur);
 }
 
-vector<pair<unsigned int, unsigned int>> Trie::search(string word){
+vector< pair<unsigned int, unsigned int> > Trie::search(string word){
     Node* cur = root;
     int index = 0;
     while(index < word.size()){
@@ -166,15 +175,16 @@ void Trie::print(Node* node, int l){
 
 void Trie::build(string filename){ 
     ifstream file(filename);
-    // ofstream keys("keys.db");
+    ofstream keys("keys.db");
     string line, key;
     unsigned int pgdir = 0, offset;
     while(getline(file,line)) {
         offset = (unsigned int)file.tellg() - pgdir;
         key = getFileNameFromRoute(line);
-        // keys<<key<<"\n";
+        keys<<key<<"\n";
         insert(key, pgdir, offset);
         pgdir = file.tellg();
     }
     file.close();
+    keys.close();
 }
